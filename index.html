@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Creativity Lab — a daily 10-minute creativity journal." />
+  <title>Creativity Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand" href="#today" aria-label="Creativity Lab Home">
+      <span class="brand-mark">✦</span>
+      <span>
+        <strong>Creativity Lab</strong>
+        <small>10-minute daily experiments</small>
+      </span>
+    </a>
+
+    <nav class="tabs" aria-label="Main navigation">
+      <button class="tab is-active" data-route="today">Today</button>
+      <button class="tab" data-route="history">History</button>
+      <button class="tab" data-route="spark">Spark</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="today" class="page is-active" aria-labelledby="today-title">
+      <div class="hero">
+        <div>
+          <p class="eyebrow">Daily routine</p>
+          <h1 id="today-title">Notice the weird. Make it useful.</h1>
+          <p class="hero-copy">A tiny creativity workout for turning ordinary things into ideas, jokes, images, lines, or questions.</p>
+        </div>
+      </div>
+
+      <div class="routine-strip" aria-label="Routine steps">
+        <article>
+          <span>3 min</span>
+          <strong>Notice</strong>
+          <p>One interesting thing from your day.</p>
+        </article>
+        <article>
+          <span>3 min</span>
+          <strong>Exaggerate</strong>
+          <p>Describe it like it hired a PR team.</p>
+        </article>
+        <article>
+          <span>2 min</span>
+          <strong>Connect</strong>
+          <p>Link it to something unrelated.</p>
+        </article>
+        <article>
+          <span>2 min</span>
+          <strong>Transform</strong>
+          <p>Make a tiny idea, image, joke, sketch, or question.</p>
+        </article>
+      </div>
+
+      <form id="entryForm" class="entry-form">
+        <input type="hidden" id="entryId" />
+
+        <div class="form-meta">
+          <label>
+            Date
+            <input id="entryDate" type="date" required />
+          </label>
+          <label>
+            Energy
+            <select id="energy">
+              <option value="">Pick a vibe</option>
+              <option>Half-awake raccoon</option>
+              <option>Functional human</option>
+              <option>Sparkly chaos</option>
+              <option>Accidental genius</option>
+            </select>
+          </label>
+          <label>
+            Tags
+            <input id="tags" type="text" placeholder="e.g. funny, image, work, friendship" />
+          </label>
+        </div>
+
+        <label class="prompt-card">
+          <span>
+            <strong>1. Ordinary thing</strong>
+            <em>What did you notice?</em>
+          </span>
+          <textarea id="ordinary" required placeholder="A cracked pavement tile."></textarea>
+        </label>
+
+        <label class="prompt-card">
+          <span>
+            <strong>2. Exaggerated description</strong>
+            <em>Make it more dramatic than necessary. Legally, emotionally, spiritually.</em>
+          </span>
+          <textarea id="exaggerated" required placeholder="A tiny earthquake with admin issues."></textarea>
+        </label>
+
+        <label class="prompt-card">
+          <span>
+            <strong>3. Unrelated connection</strong>
+            <em>Connect it to something random.</em>
+          </span>
+          <input id="connection" required type="text" placeholder="Friendship" />
+        </label>
+
+        <label class="prompt-card featured">
+          <span>
+            <strong>4. Tiny output</strong>
+            <em>Idea, image, sentence, joke, sketch prompt, or question.</em>
+          </span>
+          <textarea id="tinyOutput" required placeholder="Some friendships don’t break dramatically; they just become uneven surfaces you learn to step around."></textarea>
+        </label>
+
+        <div class="form-actions">
+          <button type="submit" class="button primary">Save entry</button>
+          <button type="button" id="clearForm" class="button ghost">Clear</button>
+          <p id="formStatus" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+    </section>
+
+    <section id="history" class="page" aria-labelledby="history-title">
+      <div class="page-heading">
+        <div>
+          <p class="eyebrow">Archive</p>
+          <h2 id="history-title">History list</h2>
+          <p>All your little sparks, safely stored in this browser.</p>
+        </div>
+        <div class="history-actions">
+          <button id="exportEntries" class="button ghost small">Export JSON</button>
+          <button id="deleteAll" class="button danger small">Delete all</button>
+        </div>
+      </div>
+
+      <div class="filters">
+        <input id="searchEntries" type="search" placeholder="Search entries, tags, ideas…" />
+        <select id="sortEntries">
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+        </select>
+      </div>
+
+      <div id="historyList" class="history-list"></div>
+      <template id="emptyStateTemplate">
+        <div class="empty-state">
+          <span>☄</span>
+          <h3>No entries yet</h3>
+          <p>Your creativity archive is currently a very tasteful empty room.</p>
+          <button class="button primary small" data-route="today">Create today’s entry</button>
+        </div>
+      </template>
+    </section>
+
+    <section id="spark" class="page" aria-labelledby="spark-title">
+      <div class="page-heading">
+        <div>
+          <p class="eyebrow">Idea fuel</p>
+          <h2 id="spark-title">Spark generator</h2>
+          <p>For days when your brain has opened 42 tabs and all of them are buffering.</p>
+        </div>
+        <button id="newSpark" class="button primary small">New spark</button>
+      </div>
+
+      <div class="spark-grid">
+        <article class="spark-card">
+          <span>Notice</span>
+          <p id="sparkNotice">A receipt curled like a sleepy shrimp.</p>
+        </article>
+        <article class="spark-card">
+          <span>Exaggerate</span>
+          <p id="sparkExaggerate">A financial document attempting interpretive dance.</p>
+        </article>
+        <article class="spark-card">
+          <span>Connect</span>
+          <p id="sparkConnect">Connect it to ambition.</p>
+        </article>
+        <article class="spark-card big">
+          <span>Tiny output prompt</span>
+          <p id="sparkOutput">Write one sentence about a goal that changed shape after you touched it.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="entryDialog" class="entry-dialog">
+    <form method="dialog">
+      <button class="dialog-close" aria-label="Close entry">×</button>
+    </form>
+    <div id="dialogContent"></div>
+  </dialog>
+
+  <footer class="footer">
+    <p>Creativity Lab saves entries locally in your browser. Your ideas stay yours. Tiny applause from the furniture-shaped goblin.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
